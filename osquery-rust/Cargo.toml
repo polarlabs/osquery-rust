@@ -7,10 +7,8 @@ authors = [
 description = "Rust bindings for osquery"
 keywords = ["osquery", "binding"]
 categories = [
-    "API bindings",
-    "Command line utilities",
-    "System management",
-    "Security tools",
+    "api-bindings",
+    "command-line-utilities",
 ]
 homepage = "https://github.com/polarlabs"
 repository = "https://github.com/polarlabs/osquery-rust"
