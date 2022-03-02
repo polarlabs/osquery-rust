@@ -140,7 +140,7 @@ impl<P: OsqueryPlugin + Clone + Send + Sync + 'static> Server<P> {
         let mut server =
             thrift::server::TServer::new(i_tr_fact, i_pr_fact, o_tr_fact, o_pr_fact, processor, 10);
         // todo: handle error
-        server.listen_socket(listen_path).unwrap();
+        server.listen("127.0.0.1").unwrap();
         self.server = Some(server);
 
         self.started = true;
