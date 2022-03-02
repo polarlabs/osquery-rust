@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "osquery-rust",
+    "osquery-rust-codegen",
+]
+

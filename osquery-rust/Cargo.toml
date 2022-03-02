@@ -1,0 +1,44 @@
+[package]
+name = "osquery-rust"
+version = "0.1.0"
+authors = [
+    "Tobias Mucke <tobias.mucke@gmail.com>",
+]
+description = "Rust bindings for osquery"
+keywords = ["osquery", "binding"]
+categories = [
+    "API bindings",
+    "Command line utilities",
+    "System management",
+    "Security tools",
+]
+homepage = "https://github.com/polarlabs"
+repository = "https://github.com/polarlabs/osquery-rust"
+readme = "README.md"
+documentation = "https://docs.rs/osquery-rust"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "osquery_rust"
+path = "src/lib.rs"
+
+[features]
+default = ["macros"]
+
+# Helper for main in osquery plugins
+macros = [
+    "osquery-rust-codegen",
+]
+
+[dependencies]
+# Clap version string according to Clap compatibility policy
+clap = { version = "^3.1.0", features = ["cargo", "derive"] }
+
+strum = "0.23.0"
+strum_macros = "0.23"
+
+# Patched version of thrift (0.15.0) to support Unix domain socket
+thrift = { path = "../thrift" }
+
+osquery-rust-codegen = { path = "../osquery-rust-codegen", optional = true }

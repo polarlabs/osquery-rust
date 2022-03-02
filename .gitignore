@@ -1,0 +1,5 @@
+.idea
+osquery-rust.iml
+
+/Cargo.lock
+/target

@@ -1,0 +1,19 @@
+[package]
+name = "table-proc-meminfo"
+version = "0.1.0"
+authors = [
+    "Tobias Mucke <tobias.mucke@gmail.com>",
+]
+description = "Interface to /proc/meminfo via osquery"
+homepage = "https://github.com/polarlabs"
+repository = "https://github.com/polarlabs/osquery-rust"
+readme = "README.md"
+documentation = "https://docs.rs/osquery-rust"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# Clap version string according to Clap compatibility policy
+clap = { version = "^3.1.0", features = ["cargo", "derive"] }
+regex = "1.5.4"
+osquery-rust = { path = "../../osquery-rust" }

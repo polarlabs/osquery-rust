@@ -1,0 +1,22 @@
+[package]
+name = "osquery-rust-codegen"
+version = "0.1.0"
+authors = [
+    "Tobias Mucke <tobias.mucke@gmail.com>",
+]
+description = "Helper for main in osquery plugins"
+homepage = "https://github.com/polarlabs"
+repository = "https://github.com/polarlabs/osquery-rust"
+readme = "README.md"
+documentation = "https://docs.rs/osquery-rust-codegen"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "osquery_rust_codegen"
+path = "src/lib.rs"
+
+# Enable procedural macros -> requires all public functions to be tagged with `#[proc_macro]`
+proc-macro = true
+
+[dependencies]
