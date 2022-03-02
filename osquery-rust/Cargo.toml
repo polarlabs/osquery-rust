@@ -38,7 +38,6 @@ clap = { version = "^3.1.0", features = ["cargo", "derive"] }
 strum = "0.23.0"
 strum_macros = "0.23"
 
-# Patched version of thrift (0.15.0) to support Unix domain socket
-thrift = { path = "../thrift" }
+osquery-rust-codegen = { version = "0.1.0", optional = true }
 
-osquery-rust-codegen = { path = "../osquery-rust-codegen", optional = true }
+thrift = "0.17.0"

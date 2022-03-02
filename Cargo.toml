@@ -4,3 +4,6 @@ members = [
     "osquery-rust-codegen",
 ]
 
+[patch.crates-io]
+# Patched version of thrift (0.15.0) to support Unix domain socket
+thrift = { path = "thrift" }
