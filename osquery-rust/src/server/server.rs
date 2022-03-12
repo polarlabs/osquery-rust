@@ -125,7 +125,6 @@ impl<P: OsqueryPlugin + Clone + Send + Sync + 'static> Server<P> {
 
         self.uuid = stat.uuid;
         let listen_path = format!("{}.{}", self.socket_path, self.uuid.unwrap());
-        println!("Listen path: {}", listen_path);
 
         let processor = ExtensionManagerSyncProcessor::new(Handler::new(&self.plugins));
         let i_tr_fact: Box<dyn TReadTransportFactory> =
@@ -139,8 +138,11 @@ impl<P: OsqueryPlugin + Clone + Send + Sync + 'static> Server<P> {
 
         let mut server =
             thrift::server::TServer::new(i_tr_fact, i_pr_fact, o_tr_fact, o_pr_fact, processor, 10);
-        // todo: handle error
-        server.listen("127.0.0.1").unwrap();
+
+        match server.listen_uds(listen_path.clone()) {
+            Ok(_) => {}
+            Err(e) => { println!("FATAL: {} while binding to {}", e, listen_path) }
+        }
         self.server = Some(server);
 
         self.started = true;

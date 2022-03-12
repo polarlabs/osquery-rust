@@ -1,15 +1,37 @@
-//! # osquery bindings for rust
+//! osquery-rust strives to make osquery extension development a breeze. If you have ideas how
+//! to improve developer experience, reach out to us on [github](https://github.com/polarlabs).
 //!
-//! ## Getting started
+//! If you encounter any issue with this crate, please raise an [issue](https://github.com/polarlabs/osquery-rust/issues).
+//! We are here to support you and your venture.
+//!
+//! As this is the lib's documentation we will focus on the lib itself. However, osquery-rust is more than
+//! just the lib. Please checkout the project's [README on github](https://github.com/polarlabs/osquery-rust) to
+//! see the whole picture.
+//!
+//! ## Include osquery-rust in your rust project
+//!
+//! Make sure to include osquery-rust as a dependency in your Cargo.toml. As osquery-rust is evolving fast, please
+//! check for the latest version often.
+//!
+//! ```
+//! [dependencies]
+//! osquery-rust = "0.1"
+//! ```
+//!
+//! ## Counter example
 //! ```
 //! use osquery_rust::prelude::*;
-//! ```
+//!
+//! #[osquery_rust::args]
+//! fn main() -> std::io::Result<()> {
+//!
+//! }
 //!
 
-// Allow access to osquery API throughout the osquery-rust bindings
-// but not to users of the library.
-pub(crate) mod _osquery;
 
+// Restrict access to osquery API to osquery-rust
+// Users of osquery-rust are not allowed to access osquery API directly
+pub(crate) mod _osquery;
 mod client;
 pub mod plugin;
 mod server;
@@ -23,7 +45,7 @@ pub type ExtensionStatus =_osquery::osquery::ExtensionStatus;
 pub use crate::server::server::Server;
 
 ///
-/// Expose all structures required in virtually any osquery plugin
+/// Expose all structures required in virtually any osquery extension
 ///
 /// ```
 /// use osquery_rust::{prelude::*, *};
@@ -34,7 +56,7 @@ pub mod prelude {
     pub use clap::{Parser};
 }
 
-
+// Generates code to allow using macros for code generation
 macro_rules! codegen_reexport {
     ($name:ident) => {
         #[cfg(feature = "macros")]
@@ -43,5 +65,5 @@ macro_rules! codegen_reexport {
     };
 }
 
+// Provide helper code from osquery-rust-codegen to define CLI interface of osquery extension
 codegen_reexport!(args);
-//codegen_reexport!(parse);

@@ -3,3 +3,7 @@ osquery-rust.iml
 
 /Cargo.lock
 /target
+
+/thrift/Cargo.lock
+/thrift/target
+

@@ -74,3 +74,5 @@ https://github.com/apache/thrift/tree/master/tutorial/rs Rust Language Bindings 
 https://prateeknischal.github.io/posts/apache-thrift-over-unix-sockets/ Unix Socket
 
 https://github.com/clap-rs/clap/blob/v3.0.13/examples/tutorial_derive/README.md Clap is so cool!
+
+https://github.com/apache/thrift/blob/master/CONTRIBUTING.md

@@ -17,8 +17,8 @@
 
 use log::warn;
 
-use std::net::{TcpListener, TcpStream, ToSocketAddrs};
-use std::os::unix::net::{UnixListener, UnixStream};
+use std::net::{TcpListener, ToSocketAddrs};
+use std::os::unix::net::UnixListener;
 use std::path::Path;
 use std::sync::Arc;
 use threadpool::ThreadPool;
@@ -26,9 +26,7 @@ use threadpool::ThreadPool;
 use crate::protocol::{
     TInputProtocol, TInputProtocolFactory, TOutputProtocol, TOutputProtocolFactory,
 };
-use crate::transport::{
-    ReadHalf, TIoChannel, TReadTransportFactory, TTcpChannel, TWriteTransportFactory, WriteHalf,
-};
+use crate::transport::{TIoChannel, TReadTransportFactory, TTcpChannel, TWriteTransportFactory};
 use crate::{ApplicationError, ApplicationErrorKind};
 
 use super::TProcessor;
@@ -182,10 +180,8 @@ where
         for stream in listener.incoming() {
             match stream {
                 Ok(s) => {
-                    let (i_prot, o_prot) = self.new_protocols_for_connection(s)?;
-                    let processor = self.processor.clone();
-                    self.worker_pool
-                        .execute(move || handle_incoming_connection(processor, i_prot, o_prot));
+                    let channel = TTcpChannel::with_stream(s);
+                    self.handle_stream(channel)?;
                 }
                 Err(e) => {
                     warn!("failed to accept remote connection with error {:?}", e);
@@ -199,27 +195,26 @@ where
         }))
     }
 
-    /// Listen for incoming connections on `listen_socket`.
+    /// Listen for incoming connections on `listen_path`.
     ///
-    /// `listen_socket` should implement `AsRef<Path>` trait.
+    /// `listen_path` should implement `AsRef<Path>` trait.
     ///
     /// Return `()` if successful.
     ///
-    /// Return `Err` when the server cannot bind to `listen_socket` or there
+    /// Return `Err` when the server cannot bind to `listen_path` or there
     /// is an unrecoverable error.
-    pub fn listen_socket<A: AsRef<Path>>(&mut self, listen_socket: A) -> crate::Result<()> {
-        let listener = UnixListener::bind(listen_socket)?;
-
+    pub fn listen_uds<P: AsRef<Path>>(&mut self, listen_path: P) -> crate::Result<()> {
+        let listener = UnixListener::bind(listen_path)?;
         for stream in listener.incoming() {
             match stream {
                 Ok(s) => {
-                    let (i_prot, o_prot) = self.new_protocols_for_socket_connection(s)?;
-                    let processor = self.processor.clone();
-                    self.worker_pool
-                        .execute(move || handle_incoming_connection(processor, i_prot, o_prot));
+                    self.handle_stream(s)?;
                 }
                 Err(e) => {
-                    warn!("failed to accept remote connection with error {:?}", e);
+                    warn!(
+                        "failed to accept connection to unix domain socket with error {:?}",
+                        e
+                    );
                 }
             }
         }
@@ -230,41 +225,21 @@ where
         }))
     }
 
-    fn new_protocols_for_connection(
-        &mut self,
-        stream: TcpStream,
-    ) -> crate::Result<(
-        Box<dyn TInputProtocol + Send>,
-        Box<dyn TOutputProtocol + Send>,
-    )> {
-        // create the shared tcp stream
-        let channel = TTcpChannel::with_stream(stream);
-
-        // split it into two - one to be owned by the
-        // input tran/proto and the other by the output
-        let (r_chan, w_chan) = channel.split()?;
-
-        // input protocol and transport
-        let r_tran = self.r_trans_factory.create(Box::new(r_chan));
-        let i_prot = self.i_proto_factory.create(r_tran);
-
-        // output protocol and transport
-        let w_tran = self.w_trans_factory.create(Box::new(w_chan));
-        let o_prot = self.o_proto_factory.create(w_tran);
-
-        Ok((i_prot, o_prot))
+    fn handle_stream<S: TIoChannel + Send + 'static>(&mut self, stream: S) -> crate::Result<()> {
+        let (i_prot, o_prot) = self.new_protocols_for_connection(stream)?;
+        let processor = self.processor.clone();
+        self.worker_pool
+            .execute(move || handle_incoming_connection(processor, i_prot, o_prot));
+        Ok(())
     }
 
-    fn new_protocols_for_socket_connection(
+    fn new_protocols_for_connection<S: TIoChannel + Send + 'static>(
         &mut self,
-        stream: UnixStream,
+        stream: S,
     ) -> crate::Result<(
         Box<dyn TInputProtocol + Send>,
         Box<dyn TOutputProtocol + Send>,
     )> {
-        // create the shared tcp stream
-        //let channel = TTcpChannel::with_stream(stream);
-
         // split it into two - one to be owned by the
         // input tran/proto and the other by the output
         let (r_chan, w_chan) = stream.split()?;
@@ -302,16 +277,5 @@ fn handle_incoming_connection<PRC>(
                 break;
             }
         }
-    }
-}
-
-impl TIoChannel for UnixStream {
-    fn split(self) -> crate::Result<(ReadHalf<Self>, WriteHalf<Self>)>
-    where
-        Self: Sized,
-    {
-        let socket_rx = self.try_clone().unwrap();
-
-        Ok((ReadHalf::new(self), WriteHalf::new(socket_rx)))
     }
 }

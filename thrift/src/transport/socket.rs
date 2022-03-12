@@ -19,6 +19,7 @@ use std::convert::From;
 use std::io;
 use std::io::{ErrorKind, Read, Write};
 use std::net::{Shutdown, TcpStream, ToSocketAddrs};
+use std::os::unix::net::UnixStream;
 
 use super::{ReadHalf, TIoChannel, WriteHalf};
 use crate::{new_transport_error, TransportErrorKind};
@@ -164,5 +165,16 @@ impl Write for TTcpChannel {
 
     fn flush(&mut self) -> io::Result<()> {
         self.if_set(|s| s.flush())
+    }
+}
+
+impl TIoChannel for UnixStream {
+    fn split(self) -> crate::Result<(ReadHalf<Self>, WriteHalf<Self>)>
+    where
+        Self: Sized,
+    {
+        let socket_rx = self.try_clone().unwrap();
+
+        Ok((ReadHalf::new(self), WriteHalf::new(socket_rx)))
     }
 }
