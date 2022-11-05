@@ -38,5 +38,4 @@ strum_macros = "0.23"
 
 osquery-rust-codegen = { version = "0.1.0", optional = true }
 
-#thrift = "0.15.0"
-thrift = { path = "../thrift" }
+thrift = "0.17.0"
