@@ -33,6 +33,10 @@ Besides the library itself, osquery-rust offers additional value:
 # Related projects
 polarlabs plans to implement valuable osquery extensions as separate projects. So, stay tuned 🎸.
 
+This project contributed the support for Unix Domain Sockets to Apache Thrift's rust crate.
+
+todo: link the issue here + the issue on Apache Thrifts Jira.
+
 # Additional resources
 
 - Homepage polarlabs: [polarlabs.io](https://www.polarlabs.io)

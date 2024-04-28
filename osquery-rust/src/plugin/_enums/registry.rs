@@ -1,6 +1,6 @@
-use strum_macros::{EnumString, EnumVariantNames};
+use strum_macros::{EnumString, VariantNames};
 
-#[derive(EnumString, EnumVariantNames, Eq, PartialEq, Hash, Debug)]
+#[derive(EnumString, VariantNames, Debug, Eq, Hash, PartialEq)]
 #[strum(serialize_all = "kebab_case")]
 pub enum Registry {
     Config,
