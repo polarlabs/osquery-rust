@@ -42,7 +42,7 @@ is up-to-date.
     extra/rustup 1.26.0-5 [installed]
         The Rust toolchain installer
 
-Check if rust toolchain is up-to-date, if not update it with `rustup`.
+Check if Rust toolchain is up-to-date, if not update it with `rustup`.
 
     $ cargo --version
     cargo 1.77.2 (e52e36006 2024-03-26)
@@ -75,11 +75,11 @@ This is how we get that interface description.
     ./osquery/extensions/thrift/osquery.thrift
 
 **Todo: Create a script to get and compare interface description to the one actually 
-used in osquery-rust. Use that script as part of CI / CD as a quality assurance measure.**
+used in `osquery-rust`. Use that script as part of CI / CD as a quality assurance measure.**
 
-## Generate rust code from interface description
+## Generate Rust code from interface description
 
-This is how to generate rust code from the interface description. The result is written 
+This is how to generate Rust code from the interface description. The result is written 
 to `src/osquery.rs`.
 
 **Note: Within the `osquery-rust` project, the interface description is used in 

@@ -1,8 +1,11 @@
-This project provides the bindings to osquery for Rust. It's still in its early stages. However, its continuously 
-improved. Feel free to create an issue on Github if you are missing something or experience bugs.
-
-Osquery and its plugins communicate via an interface based on Apache Thrift. So,
+This crate facilitates the development of osquery plugins in Rust by providing the bindings. Osquery 
+communicates with its plugins via an interface based on Apache Thrift. So, to put it simply, 
 `osquery-rust` is a wrapper around that interface and turns it into a powerful API.
+
+The crate is still in its early stages. However, it already works and got some traction in the beginning 
+of 2024.
+
+Feel free to create an issue on Github if you are missing something or experience bugs.
 
 # Tools
 
@@ -26,8 +29,8 @@ Thank you to all who contributed to these tools, as they enabled me to build thi
 
 # Naming Convention
 
-Do not follow rust naming as usage of - / _ in package / crate names is unclear. So wie follow the naming convention 
-of osquery, e.g. osquery-go => Go bindings.
+Do not follow Rust's naming convention for crates as usage of - / _ in package / crate names is unclear. 
+So wie follow the naming convention of osquery, e.g. `osquery-go` => Go bindings.
 
 # Links
 
