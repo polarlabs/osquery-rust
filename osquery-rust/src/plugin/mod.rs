@@ -11,4 +11,4 @@ pub use _traits::osquery_plugin::OsqueryPlugin;
 pub use table::column_def::ColumnDef;
 pub use table::column_def::ColumnType;
 pub use table::query_constraint::QueryConstraints;
-pub use table::table::Table;
+pub use table::Table;

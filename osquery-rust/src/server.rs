@@ -6,25 +6,17 @@ use std::time::Duration;
 use clap::crate_name;
 use strum::VariantNames;
 use thrift::protocol::*;
-use thrift::protocol::{TBinaryInputProtocol, TBinaryOutputProtocol};
 use thrift::transport::*;
 
 use crate::_osquery as osquery;
-use osquery::TExtensionSyncClient;
-
-use crate::_osquery::{
-    ExtensionManagerSyncProcessor, ExtensionPluginRequest,
-    ExtensionRegistry, ExtensionResponse, ExtensionRouteUUID, ExtensionStatus,
-    InternalExtensionInfo, InternalExtensionList, InternalOptionList,
-    TExtensionManagerSyncClient,
-};
-
-use crate::client::client::Client;
+use crate::_osquery::{TExtensionManagerSyncClient, TExtensionSyncClient};
+use crate::client::Client;
 use crate::plugin::{OsqueryPlugin, Plugin, Registry};
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_millis(1000);
 const DEFAULT_PING_INTERVAL: Duration = Duration::from_millis(5000);
 
+#[allow(clippy::type_complexity)]
 pub struct Server<P: OsqueryPlugin + Clone + Send + Sync + 'static> {
     name: String,
     socket_path: String,
@@ -32,7 +24,7 @@ pub struct Server<P: OsqueryPlugin + Clone + Send + Sync + 'static> {
     plugins: Vec<P>,
     server: Option<
         thrift::server::TServer<
-            ExtensionManagerSyncProcessor<Handler<P>>,
+            osquery::ExtensionManagerSyncProcessor<Handler<P>>,
             Box<dyn TReadTransportFactory>,
             Box<dyn TInputProtocolFactory>,
             Box<dyn TWriteTransportFactory>,
@@ -126,7 +118,7 @@ impl<P: OsqueryPlugin + Clone + Send + Sync + 'static> Server<P> {
         self.uuid = stat.uuid;
         let listen_path = format!("{}.{}", self.socket_path, self.uuid.unwrap());
 
-        let processor = ExtensionManagerSyncProcessor::new(Handler::new(&self.plugins));
+        let processor = osquery::ExtensionManagerSyncProcessor::new(Handler::new(&self.plugins));
         let i_tr_fact: Box<dyn TReadTransportFactory> =
             Box::new(TBufferedReadTransportFactory::new());
         let i_pr_fact: Box<dyn TInputProtocolFactory> =
@@ -170,7 +162,7 @@ struct Handler<P: OsqueryPlugin + Clone> {
 }
 
 impl<P: OsqueryPlugin + Clone> Handler<P> {
-    fn new(plugins: &Vec<P>) -> Self {
+    fn new(plugins: &[P]) -> Self {
         let mut reg: HashMap<String, HashMap<String, P>> = HashMap::new();
         for var in Registry::VARIANTS {
             reg.insert((*var).to_string(), HashMap::new());
@@ -187,7 +179,7 @@ impl<P: OsqueryPlugin + Clone> Handler<P> {
 }
 
 impl<P: OsqueryPlugin + Clone> osquery::ExtensionSyncHandler for Handler<P> {
-    fn handle_ping(&self) -> thrift::Result<ExtensionStatus> {
+    fn handle_ping(&self) -> thrift::Result<osquery::ExtensionStatus> {
         Ok(osquery::ExtensionStatus::default())
     }
 
@@ -203,8 +195,8 @@ impl<P: OsqueryPlugin + Clone> osquery::ExtensionSyncHandler for Handler<P> {
         &self,
         registry: String,
         item: String,
-        request: ExtensionPluginRequest,
-    ) -> thrift::Result<ExtensionResponse> {
+        request: osquery::ExtensionPluginRequest,
+    ) -> thrift::Result<osquery::ExtensionResponse> {
         let ok = osquery::ExtensionStatus::default();
 
         //println!("Registry: {}", registry);
@@ -223,7 +215,7 @@ impl<P: OsqueryPlugin + Clone> osquery::ExtensionSyncHandler for Handler<P> {
                             .unwrap();
                         let resp = plugin.routes();
 
-                        Ok(ExtensionResponse::new(ok, resp))
+                        Ok(osquery::ExtensionResponse::new(ok, resp))
 
                         /*
                         Plugin::Config => {}
@@ -260,34 +252,34 @@ impl<P: OsqueryPlugin + Clone> osquery::ExtensionSyncHandler for Handler<P> {
 }
 
 impl<P: OsqueryPlugin + Clone> osquery::ExtensionManagerSyncHandler for Handler<P> {
-    fn handle_extensions(&self) -> thrift::Result<InternalExtensionList> {
+    fn handle_extensions(&self) -> thrift::Result<osquery::InternalExtensionList> {
         todo!()
     }
 
-    fn handle_options(&self) -> thrift::Result<InternalOptionList> {
+    fn handle_options(&self) -> thrift::Result<osquery::InternalOptionList> {
         todo!()
     }
 
     fn handle_register_extension(
         &self,
-        _info: InternalExtensionInfo,
-        _registry: ExtensionRegistry,
-    ) -> thrift::Result<ExtensionStatus> {
+        _info: osquery::InternalExtensionInfo,
+        _registry: osquery::ExtensionRegistry,
+    ) -> thrift::Result<osquery::ExtensionStatus> {
         todo!()
     }
 
     fn handle_deregister_extension(
         &self,
-        _uuid: ExtensionRouteUUID,
-    ) -> thrift::Result<ExtensionStatus> {
+        _uuid: osquery::ExtensionRouteUUID,
+    ) -> thrift::Result<osquery::ExtensionStatus> {
         todo!()
     }
 
-    fn handle_query(&self, _sql: String) -> thrift::Result<ExtensionResponse> {
+    fn handle_query(&self, _sql: String) -> thrift::Result<osquery::ExtensionResponse> {
         todo!()
     }
 
-    fn handle_get_query_columns(&self, _sql: String) -> thrift::Result<ExtensionResponse> {
+    fn handle_get_query_columns(&self, _sql: String) -> thrift::Result<osquery::ExtensionResponse> {
         todo!()
     }
 }
