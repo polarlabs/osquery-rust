@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use clap::crate_name;
+use clap::{crate_name, Parser};
 
 use osquery_rust::prelude::*;
 use osquery_rust::plugin::{ColumnDef, ColumnType, Plugin, Table};
@@ -31,7 +31,7 @@ fn columns() -> Vec<ColumnDef> {
     let f = File::open("/proc/meminfo").unwrap();
     let reader = BufReader::new(f);
 
-    for (_index, line) in reader.lines().enumerate() {
+    for line in reader.lines() {
         let s: String = line.unwrap();
 
         let cap = regex.captures(s.as_str()).unwrap();
@@ -43,10 +43,7 @@ fn columns() -> Vec<ColumnDef> {
 }
 
 fn generate(_req: ExtensionPluginRequest) -> ExtensionResponse {
-    let mut resp = ExtensionPluginResponse::new();
-
-    resp.push(proc_meminfo());
-
+    let resp = vec![proc_meminfo()];
     ExtensionResponse::new(ExtensionStatus::default(), resp)
 }
 
@@ -57,7 +54,7 @@ fn proc_meminfo() -> BTreeMap<String, String> {
     let f = File::open("/proc/meminfo").unwrap();
     let reader = BufReader::new(f);
 
-    for (_index, line) in reader.lines().enumerate() {
+    for line in reader.lines() {
         let s: String = line.unwrap();
         let cap = regex.captures(s.as_str()).unwrap();
         let s = cap[1].replace('(', "_").replace(')', "");
