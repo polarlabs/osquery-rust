@@ -2,22 +2,27 @@
 
 ## Code
 
-- Update to latest Apache Thrift version (0.17.0).
-- Update all dependencies to latest version.
-- Set #![forbid(unsafe_code)].
+:heavy_check_mark: Update to latest Apache Thrift version (0.17.0).
+
+:heavy_check_mark: Update all dependencies to latest version.
+
+:heavy_check_mark: Set #![forbid(unsafe_code)].
+
+:heavy_check_mark: Fix issue reported for `osquery-rust-codegen`.
+
+:heavy_check_mark: Release osquery-rust-codegen 0.1.1.
+
+:heavy_check_mark: Update the examples.
 
 ## Project
 
-- Adopt Polarlabs branch model.
-- Move updated Thrift related documentation to CONTRIBUTING.md.
-- Update licensing: now dual licensed, MIT or Apache 2.0
+:heavy_check_mark: Adopt Polarlabs branch model.
 
-1. Improve README.md for osquery-rust => this is visible on crates.io.
-2. Complete review of osquery-rust.
-3. Use osquery-rust in an example.
+:heavy_check_mark: Move updated Thrift related documentation to CONTRIBUTING.md.
+
+:heavy_check_mark: Update licensing: now dual licensed, MIT or Apache 2.0.
+
+:heavy_check_mark: Improve README.md for `osquery-rust` => this is visible on crates.io.
+
+
 4. Compare to osquery-rust-outdated to cherry-pick missing pieces.
-5. Fix issue reported for codegen.
-6. Check all open todos in code and documentation, e.g. counter example.
-7. Remove all #[allow(unused_imports)] and #[allow(dead_code)].
-8. Quality assurance: no clippy warnings, linter!
-9. Publish to crates.io: use the publishing process described in Kodiak factory.
