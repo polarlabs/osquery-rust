@@ -1,5 +1,5 @@
-In this tutorial you will create an osquery extension which implements a table plugin. In osquery, tables are used 
-to provide data to its users.
+In this tutorial you will create an osquery extension which implements a table plugin. In 
+osquery, tables are used to provide data to its users.
 
 For the time being this tutorial is limited to Linux and Mac OS.
 
@@ -64,11 +64,6 @@ extension, the more likely you need to refer to other libraries / dependencies.
 # Conclusion
 
 I hope you enjoyed this tutorial. You find more examples in the ''examples'' folder.
-
-
-
-
-
 
 //! ## Getting started
 //!

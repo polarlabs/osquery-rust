@@ -24,5 +24,4 @@
 
 :heavy_check_mark: Improve README.md for `osquery-rust` => this is visible on crates.io.
 
-
-4. Compare to osquery-rust-outdated to cherry-pick missing pieces.
+:heavy_check_mark: First step towards automated Docker images for Osquery.
