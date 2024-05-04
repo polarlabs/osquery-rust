@@ -1,25 +1,33 @@
-#FROM rockylinux:latest
-#FROM alpine:latest
-FROM cirros:latest
-MAINTAINER polarlabs
+# Stage 1: build dependencies
+FROM lukemathwalker/cargo-chef:latest-rust-latest as chef
+WORKDIR /app
+RUN apt update && apt install lld clang -y
 
-#RUN apk --update add ca-certificates
-#RUN apk --update make
-#RUN apk add gcompat
+FROM chef as planner
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
 
-#RUN addgroup -S fleet && adduser -S fleet -G fleet
+FROM chef as builder
+COPY --from=planner /app/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
+COPY . .
+RUN cargo build --release
 
-# RPM installation
-#ADD https://github.com/osquery/osquery/releases/download/5.2.2/osquery-5.2.2-1.linux.x86_64.rpm /tmp/
-#RUN rpm -i /tmp/osquery-5.2.2-1.linux.x86_64.rpm
+# Runtime stage
+FROM polarlabs/osquery:5.2.2-debian-stable-slim AS runtime
 
-# TAR.GZ installation
-ADD https://github.com/osquery/osquery/releases/download/5.2.2/osquery-5.2.2_1.linux_x86_64.tar.gz /tmp/
-RUN tar -xzf /tmp/osquery-5.2.2_1.linux_x86_64.tar.gz
+ENV OSQUERY_EXTENSION_PERMS=744
+ENV OSQUERY_EXTENSION_NAME=table-proc-meminfo
+ENV OSQUERY_EXTENSION_FOLDER=/data/osquery/ext
+ENV OSQUERY_COMPILATION_TARGET=x86_64-unknown-linux-musl
 
-#git clone --depth 1 --branch 5.2.2 https://github.com/osquery/osquery
-#git clone --depth 1 --branch 1.1.0 https://github.com/osquery/osquery
-#COPY ./build/binary-bundle/linux/fleet ./build/binary-bundle/linux/fleetctl /usr/bin/
+WORKDIR /app
+COPY --from=builder /app/target/$OSQUERY_COMPILATION_TARGET/debug/$OSQUERY_EXTENSION_NAME $OSQUERY_EXTENSION_FOLDER/
 
-#USER fleet
-CMD /bin/ash
+USER root
+RUN chmod $OSQUERY_EXTENSION_PERMS $OSQUERY_EXTENSION_FOLDER/$OSQUERY_EXTENSION_NAME
+
+WORKDIR $OSQUERY_EXTENSION_FOLDER
+#ENTRYPOINT ["osqueryi", "--extension", "${OSQUERY_EXTENSION_NAME}"]
+#CMD ["osqueryi", "--extension", "/tmp/table-proc-meminfo"]
+CMD osqueryi --extension $OSQUERY_EXTENSION_FOLDER/$OSQUERY_EXTENSION_NAME

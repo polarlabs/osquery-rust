@@ -1,4 +1,4 @@
-FROM rockylinux:latest
+FROM debian:stable-slim
 MAINTAINER polarlabs
 
 LABEL description="Testing osquery image build"
@@ -10,8 +10,8 @@ ENV USER=osquery \
 
 ENV RELEASE=5.2.2
 ENV BUILD=$RELEASE-1
-ENV UPSTREAM_PKG=osquery-$BUILD.linux.x86_64.rpm
-ENV INSTALL_CMD="rpm --install /tmp/$UPSTREAM_PKG"
+ENV UPSTREAM_PKG=osquery_$BUILD.linux_amd64.deb
+ENV INSTALL_CMD="dpkg --install /tmp/$UPSTREAM_PKG"
 
 ADD https://github.com/osquery/osquery/releases/download/$RELEASE/$UPSTREAM_PKG /tmp/
 

@@ -1,5 +1,5 @@
-In this tutorial you will create an osquery extension which implements a table plugin. In osquery, tables are used 
-to provide data to its users.
+In this tutorial you will create an osquery extension which implements a table plugin. In 
+osquery, tables are used to provide data to its users.
 
 For the time being this tutorial is limited to Linux and Mac OS.
 
@@ -7,7 +7,7 @@ For the time being this tutorial is limited to Linux and Mac OS.
 
 To follow this tutorial you should have 
 
-1. basic programming skills, preferably in rust.
+1. basic programming skills, preferably in Rust.
 2. familiarity with osquery
 
 # Prerequisites
@@ -16,7 +16,7 @@ To follow this tutorial successfully, you don't need elevated privileges. Howeve
 are required:
 
 1. osquery installed.
-2. rust toolchain installed.
+2. Rust toolchain installed.
 3. access to Internet to download dependencies.
 
 ## Osquery
@@ -30,9 +30,9 @@ osqueryi version 5.0.1
 
 ## Rust toolchain
 
-The easiest way to install the rust toolchain is via [[LINK_TO_RUSTUP|rustup]].
+The easiest way to install the Rust toolchain is via [[LINK_TO_RUSTUP|rustup]].
 
-You can check your rust installation by executing the following commands.
+You can check your Rust installation by executing the following commands.
 
 ```
 $ cargo --version
@@ -41,7 +41,7 @@ $ rustc --version
 rustc 1.59.0 (9d1b2106e 2022-02-23)
 ```
 
-# Create a rust project
+# Create a Rust project
 
 An osquery extension is a binary. So we need to create a binary crate via cargo.
 
@@ -57,7 +57,7 @@ The project folder ''osquery-rust-tutorial'' consists of two files:
 
 # Define dependencies
 
-The osquery-rust crate provides all you need to implement an osquery extension. However, the more powerfull your 
+The `osquery-rust` crate provides all you need to implement an osquery extension. However, the more powerfull your 
 extension, the more likely you need to refer to other libraries / dependencies.
 
 
@@ -65,21 +65,16 @@ extension, the more likely you need to refer to other libraries / dependencies.
 
 I hope you enjoyed this tutorial. You find more examples in the ''examples'' folder.
 
-
-
-
-
-
 //! ## Getting started
 //!
-//! Getting started with osquery-rust is straight forward. However, as an osquery extension does not stand alone,
+//! Getting started with `osquery-rust` is straight forward. However, as an osquery extension does not stand alone,
 //! but requires osquery, some setup steps are required.
 //!
 //! ### Install osquery
 //!
-//! ### Include osquery-rust in your rust project
+//! ### Include `osquery-rust` in your rust project
 //!
-//! Make sure to include osquery-rust as a dependency in your Cargo.toml. As osquery-rust is evolving fast, please
+//! Make sure to include `osquery-rust` as a dependency in your Cargo.toml. As `osquery-rust` is evolving fast, please
 //! check for the latest version often.
 //!
 //! ```

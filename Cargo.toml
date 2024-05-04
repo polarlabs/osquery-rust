@@ -4,3 +4,5 @@ members = [
     "osquery-rust-codegen",
     "examples/table-proc-meminfo",
 ]
+
+resolver = "2"
