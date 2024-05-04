@@ -1,4 +1,4 @@
-:pencil: Complete review of `osquery-rust`: how to improve the API.
+:pencil: Complete review of `osquery-rust`: how to improve the API?
 
 :pencil: Check all open todos in code and documentation.
 

@@ -20,7 +20,7 @@ Correct:
 
 # Osquery's plugin interface
 
-Osquery and its plugins communicate via an interface based on Apache Thrift. So,
+Osquery and its extensions communicate via an interface based on Apache Thrift. So,
 `osquery-rust` is a wrapper around that interface and turns it into a powerful API.
 
 The beauty of a Thrift based interface is, that this is interface is formally described 
