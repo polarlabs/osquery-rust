@@ -10,22 +10,24 @@ to extend Osquery easily without sacrificing performance and security.
 - 🐧 Version 0.1.x has been tested on Linux only.
 
 # Roadmap and future considerations
-## Version 0.5.0
-- Add support for Windows.
 
-## Version 0.4.0
+## Version 0.5.0
 - Support config plugins.
 
-## Version 0.3.0
+## Version 0.4.0
 - Support logging plugins.
 - Provide a tutorial to explain Osquery and how to extend its functionality with `osquery-rust`.
 - Automate building and testing.
 
-## Version 0.2.0
+## Version 0.3.0
 - Refine API: think about a trait to avoid the requirement 
   to define both `ColumnDef` and `ExtensionPluginResponse` consistently.
-- Minimize dependencies: users of `osquery-rust` should only be required to use `osquery-rust`.
 - Automate building of Docker images for Osquery.
+
+## Version 0.2.0
+- Add support for Windows.
+- Minimize dependencies: users of `osquery-rust` should only be required to use `osquery-rust`.
+- Ramp-up project `mole-plugins`, a collection of extensions compatible to Osquery. 
 
 ## Version 0.1.2
 - Update to thrift-rust bindings to communicate with Osquery via Unix Domain Sockets.
