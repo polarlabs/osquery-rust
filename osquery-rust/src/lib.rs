@@ -14,20 +14,21 @@
 //! stages and might evolve fast, please check for the latest version often. We adhere to semver. So you can
 //! rely on caret notation when selecting the version.
 //!
-//! ```
+//! ``
 //! [dependencies]
 //! osquery-rust = "^0.1"
-//! ```
+//! ``
 //!
 //! ## Counter example
 //! todo: what is the counter example? where does osquery_rust::args come from?
-//! ```
+//! ``
 //! use osquery_rust::prelude::*;
 //!
 //! #[osquery_rust::args]
 //! fn main() -> std::io::Result<()> {
-//!
+//!     Ok(())
 //! }
+//! ``
 //!
 
 #![forbid(unsafe_code)]
