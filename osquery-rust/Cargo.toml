@@ -1,10 +1,10 @@
 [package]
 name = "osquery-rust"
-version = "0.1.2"
+version = "0.1.4"
 authors = [
     "Tobias Mucke <tobias.mucke@gmail.com>",
 ]
-description = "Rust bindings for osquery"
+description = "Rust bindings for Osquery"
 keywords = ["osquery", "binding"]
 categories = [
     "api-bindings",
