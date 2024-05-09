@@ -10,23 +10,23 @@ To get you inspired, have a look at the [examples](https://github.com/polarlabs/
 
 # Roadmap
 
-:pencil: An extension might provide multiple plugins. Not sure, how to do this 
+📝 An extension might provide multiple plugins. Not sure, how to do this 
 with `osquery-rust`.
 
-:pencil: Today, `osquery-rust` is limited to table plugins. Osquery knows other plugins as well, 
+📝 Today, `osquery-rust` is limited to table plugins. Osquery knows other plugins as well, 
 such as config and logger.
 
-:pencil: Rethink API and align with Rust API Guidelines.
+📝 Rethink API and align with Rust API Guidelines.
 
-:pencil: Improve documentation and provide a tutorial.
+📝 Improve documentation and provide a tutorial.
 
-:heavy_check_mark: Publish a first example.
+✅ Publish a first example.
 
-:heavy_check_mark: Publish a working version of `osquery-rust` on crates.io based PR merged into thrift 0.17.
+✅ Publish a working version of `osquery-rust` on crates.io based PR merged into thrift 0.17.
 
-:heavy_check_mark: MVP, communicates with Osquery via socket and provides a table with data from /proc/meminfo.
+✅ MVP, communicates with Osquery via socket and provides a table with data from /proc/meminfo.
 
-:heavy_check_mark: Done: PR to Thrift to contribute the support for unix domain sockets to upstream. This was 
+✅ PR to Thrift to contribute the support for unix domain sockets to upstream. This was 
 a preliminary to this project.
 
 # Naming of this crate
