@@ -26,8 +26,7 @@ such as config and logger.
 
 ✅ MVP, communicates with Osquery via socket and provides a table with data from /proc/meminfo.
 
-✅ PR to Thrift to contribute the support for unix domain sockets to upstream. This was 
-a preliminary to this project.
+✅ PR to Thrift to contribute the support for unix domain sockets to upstream. This was a preliminary to this project.
 
 # Naming of this crate
 
