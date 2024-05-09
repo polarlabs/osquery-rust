@@ -8,6 +8,9 @@ pub struct ColumnDef {
     t: ColumnType,
 }
 
+///
+/// Mapping of Rust types to Sqlite types
+/// https://docs.rs/sqlx/latest/sqlx/sqlite/types/index.html
 #[derive(Clone, Display, Debug)]
 #[strum(serialize_all = "UPPERCASE")]
 pub enum ColumnType {
