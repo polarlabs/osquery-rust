@@ -73,7 +73,8 @@ pub mod prelude {
 macro_rules! codegen_reexport {
     ($name:ident) => {
         #[cfg(feature = "macros")]
-        #[cfg_attr(docsrs, doc(cfg(feature = "macros")))]
+        // #[doc(cfg)] is experimental
+        // #[cfg_attr(docsrs, doc(cfg(feature = "macros")))]
         pub use osquery_rust_codegen::$name;
     };
 }

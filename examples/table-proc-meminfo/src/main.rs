@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use clap::{crate_name, Parser};
+use clap::{crate_name};
 
 use osquery_rust::prelude::*;
 use osquery_rust::plugin::{ColumnDef, ColumnType, Plugin, Table};
